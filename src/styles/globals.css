@@ -1,9 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "SF-Pro-Display-Bold";
+  src: url("/fonts/SF-Pro-Display-Bold.otf");
+}
+@font-face {
+  font-family: "SF-Pro-Display-Black";
+  src: url("/fonts/SF-Pro-Display-Black.otf");
+}
+@font-face {
+  font-family: "SF-Pro-Display-Heavy";
+  src: url("/fonts/SF-Pro-Display-Heavy.otf");
+}
+@font-face {
+  font-family: "SF-Pro-Display-Light";
+  src: url("/fonts/SF-Pro-Display-Light.otf");
+}
+@font-face {
+  font-family: "SF-Pro-Display-Medium";
+  src: url("/fonts/SF-Pro-Display-Medium.otf");
+}
+@font-face {
+  font-family: "SF-Pro-Display-Regular";
+  src: url("/fonts/SF-Pro-Display-Regular.otf");
+}
+@font-face {
+  font-family: "SF-Pro-Display-Semibold";
+  src: url("/fonts/SF-Pro-Display-Semibold.otf");
+}
+@font-face {
+  font-family: "SF-Pro-Display-Thin";
+  src: url("/fonts/SF-Pro-Display-Thin.otf");
+}
+@font-face {
+  font-family: "SF-Pro-Display-Ultralight";
+  src: url("/fonts/SF-Pro-Display-Ultralight.otf");
+}
+@font-face {
+  font-family: "Font_Awesome_6_Pro-Light-300";
+  src: url("/fonts/Font_Awesome_6_Pro-Light-300.otf");
+}
+@font-face {
+  font-family: "Font_Awesome_6_Pro-Regular-400";
+  src: url("/fonts/Font_Awesome_6_Pro-Regular-400.otf");
+}
+@font-face {
+  font-family: "Font_Awesome_6_Pro-Solid-900";
+  src: url("/fonts/Font_Awesome_6_Pro-Solid-900.otf");
+}
+@font-face {
+  font-family: "Font_Awesome_6_Pro-Thin-100";
+  src: url("/fonts/Font_Awesome_6_Pro-Thin-100.otf");
+}
+
+@layer base {
+  html {
+    @apply text-typographyprimary;
+  }
+  select {
+    @apply text-typographyprimary;
+  }
+  input {
+    @apply text-typographyprimary;
+  }
+  h1 {
+    @apply font-bold text-7xl;
+  }
+  h2 {
+    @apply font-bold text-6xl;
+  }
+  h3 {
+    @apply font-bold text-5xl;
+  }
+  h4 {
+    @apply font-bold text-3xl;
+  }
+  h5 {
+    @apply font-bold text-2xl;
+  }
+  h6 {
+    @apply font-bold text-xl;
+  }
+  sh1 {
+    @apply font-semibold text-4xl;
+  }
+  sh2 {
+    @apply font-semibold text-2xl;
+  }
+  sh3 {
+    @apply font-semibold text-xl;
+  }
+  sh4 {
+    @apply font-semibold text-base;
+  }
+  t1 {
+    @apply font-semibold text-3xl;
+  }
+  t2 {
+    @apply font-semibold text-2xl;
+  }
+  t3 {
+    @apply font-semibold text-xl;
+  }
+  t4 {
+    @apply font-semibold text-lg;
+  }
+  t5 {
+    @apply font-semibold text-base;
+  }
+  t6 {
+    @apply font-semibold text-sm;
+  }
+  c1 {
+    @apply font-medium text-2xl;
+  }
+  c2 {
+    @apply font-medium text-xl;
+  }
+  c3 {
+    @apply font-medium text-lg;
+  }
+  c4 {
+    @apply font-medium text-base;
+  }
+  c5 {
+    @apply font-medium text-sm;
+  }
+  c6 {
+    @apply font-medium text-xs;
+  }
+  b1 {
+    @apply font-semibold text-lg;
+  }
+  b2 {
+    @apply font-semibold text-base;
+  }
+  b3 {
+    @apply font-semibold text-sm;
+  }
+  tag1 {
+    @apply font-medium text-lg;
+  }
+  tag2 {
+    @apply font-medium text-sm;
+  }
+  tag3 {
+    @apply font-medium text-base;
+  }
+  tag4 {
+    @apply font-medium text-[12px] leading-[14px];
+  }
+  tag5 {
+    @apply font-medium text-[10px] leading-3;
+  }
+  tag6 {
+    @apply font-medium text-[10px] leading-3;
+  }
+}
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -40,39 +202,6 @@
   --card-border-rgb: 131, 134, 135;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-
-    --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-    --secondary-glow: linear-gradient(
-      to bottom right,
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0.3)
-    );
-
-    --tile-start-rgb: 2, 13, 46;
-    --tile-end-rgb: 2, 5, 19;
-    --tile-border: conic-gradient(
-      #ffffff80,
-      #ffffff40,
-      #ffffff30,
-      #ffffff20,
-      #ffffff10,
-      #ffffff10,
-      #ffffff80
-    );
-
-    --callout-rgb: 20, 20, 20;
-    --callout-border-rgb: 108, 108, 108;
-    --card-rgb: 100, 100, 100;
-    --card-border-rgb: 200, 200, 200;
-  }
-}
-
 * {
   box-sizing: border-box;
   padding: 0;
@@ -98,10 +227,4 @@ body {
 a {
   color: inherit;
   text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
 }
