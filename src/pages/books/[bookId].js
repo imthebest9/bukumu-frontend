@@ -3,7 +3,7 @@ import Image from "next/image";
 import Header from "@/components/header";
 import Link from "next/link";
 
-export default function Home() {
+export default function Books() {
   return (
     <>
       <div className="flex flex-col min-h-screen min-w-screen bg-background ">
@@ -20,7 +20,7 @@ export default function Home() {
                     className="object-contain h-full rounded-3xl hover:drop-shadow-2xl"
                   />
                 </div>
-                <h6>Teluk Intan</h6>
+                <h6>Teluk Inta12312n</h6>
                 <c4>by: Author Name</c4>
               </div>
             </Link>
