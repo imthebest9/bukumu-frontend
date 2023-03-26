@@ -23,7 +23,7 @@ export default function Header() {
         </div>
         <div className="flex items-center justify-center w-1/12">
           <div
-            className="flex w-8 h-8 bg-white rounded-full"
+            className="flex justify-center w-6 h-6 bg-white rounded-full hover:ring-gray-300 hover:ring-8"
             // style={{
             //   "background-image":
             //     "url(data:image/png;base64," +
@@ -32,7 +32,16 @@ export default function Header() {
             //   "background-size": "cover",
             //   "background-position": "center",
             // }}
-          ></div>
+          >
+            <Link href="/profile">
+              <Image
+                src="/images/user.png"
+                alt="User"
+                width={100}
+                height={100}
+              />
+            </Link>
+          </div>
         </div>
       </div>
     </>

@@ -1,8 +1,4 @@
-import Head from "next/head";
-import Image from "next/image";
 import Header from "@/components/header";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 import Books from "@/components/books";
 
 export default function Home() {
