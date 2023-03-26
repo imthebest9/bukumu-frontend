@@ -1,19 +1,25 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Header() {
   return (
     <>
       <div className="flex w-full h-12 m-3 space-x-4 lg:mx-6">
         <div className="relative w-1/12">
-          <Image
-            src="/images/bukumu_logo.png"
-            alt="BukuMu Logo"
-            fill
-            className="object-contain"
-          />
+          <Link href="/">
+            <Image
+              src="/images/bukumu_logo.png"
+              alt="BukuMu Logo"
+              fill
+              className="object-contain"
+            />
+          </Link>
         </div>
         <div className="flex w-10/12">
-          <input className="w-full" />
+          <input
+            className="w-full px-4 py-2 bg-gray-200 border-none hover:bg-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Search"
+          />
         </div>
         <div className="flex items-center justify-center w-1/12">
           <div
