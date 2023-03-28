@@ -4,13 +4,14 @@ import Link from "next/link";
 export default function Header() {
   return (
     <>
-      <div className="flex w-full h-12 m-3 space-x-4 lg:mx-6">
+      <div className="flex w-full p-3 space-x-4 lg:px-6 bg-background">
         <div className="relative w-1/12">
           <Link href="/">
             <Image
               src="/images/bukumu_logo.png"
               alt="BukuMu Logo"
-              fill
+              width={100}
+              height={100}
               className="object-contain"
             />
           </Link>
