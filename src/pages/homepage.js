@@ -5,7 +5,7 @@ import Image from "next/image";
 export default function Home() {
   return (
     <>
-      <div className="flex flex-col min-h-screen min-w-screen bg-white ">
+      <div className="flex flex-col min-h-full bg-white justify-center">
         <Header />
         <div className="flex flex-col w-full h-[550px] px-6 mx-auto align-center bg-background mb-[50px] rounded-b-[55%]">
           <div className="flex flex-row w-full">
@@ -30,7 +30,7 @@ export default function Home() {
               <div className="mb-6">
                 <c4 className="text-teal-600">Bukumu&nbsp;</c4>
                 <c4 className="text-gray-600">
-                  is a Local Book Recommendation Website.
+                  is a Local Book Recommendation Website for you.
                 </c4>
               </div>
               <div className="flex flex-row space-x-4 mb-8">
@@ -98,8 +98,39 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col w-full h-[550px] px-6 mx-12 lg:mx-24 align-center">
-          <h4>What we aim to achieve</h4>
+        <div className="flex flex-row h-[550px] max-w-screen-xl mx-auto w-full justify-center px-12 lg:px-0 align-center">
+          <div className="space-y-4 w-1/3">
+            <div className="mb-4">
+              <h4>What we aim to achieve</h4>
+            </div>
+            <div className="flex flex-row items-center space-x-4">
+              <div className="bg-teal-500 p-2.5 w-8 rounded-lg">
+                <p className="text-white">1</p>
+              </div>
+              <c4>Get Good Book Recommendations For You</c4>
+            </div>
+            <div className="flex flex-row items-center space-x-4">
+              <div className="bg-teal-500 p-2.5 w-8 rounded-lg">
+                <p className="text-white">2</p>
+              </div>
+              <c4>Promote Malaysian Books and Magazines</c4>
+            </div>
+            <div className="flex flex-row items-center space-x-4">
+              <div className="bg-teal-500 p-2.5 w-8 rounded-lg">
+                <p className="text-white">3</p>
+              </div>
+              <c4>Make process of finding a book's details easier</c4>
+            </div>
+          </div>
+          <div className="w-2/3 -mt-[330px] flex justify-center">
+            <Image
+              src="/images/bookstore.jpg"
+              alt="bookstore"
+              width={500}
+              height={500}
+              className="object-contain"
+            />
+          </div>
         </div>
       </div>
     </>

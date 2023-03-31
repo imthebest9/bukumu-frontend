@@ -4,24 +4,28 @@ import Header from "@/components/header";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function Books() {
+export default function Books({ count, column }) {
   const [books, setBooks] = useState(null);
-  async function getAllBooks() {
-    const res = await fetch("https://bukumu-backend.herokuapp.com/books", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  async function getAllBooks(count) {
+    if (!count) count = 100;
+    const res = await fetch(
+      `https://bukumu-backend.herokuapp.com/books/random/${count}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
     console.log(data);
     setBooks(data);
   }
   useEffect(() => {
-    getAllBooks();
+    getAllBooks(count);
   }, []);
   return (
-    <div className="gap-6 space-y-8 columns-3">
+    <div className={`gap-6 space-y-8 columns-${column}`}>
       {books?.map((book) => (
         <Link href={`/books/${book?._id}`}>
           <div className="mb-6 cursor-pointer break-inside-avoid">
