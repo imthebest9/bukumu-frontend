@@ -2,6 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Header() {
+  // search for a book
+  const searchBook = (e) => {
+    e.preventDefault();
+    const search = e.target.search.value;
+    if (search) {
+      // go to search page
+      window.location.href = `/search?term=${search}`;
+    }
+  };
+
   return (
     <>
       <div className="flex w-full p-3 space-x-4 lg:px-6 bg-background">
@@ -16,12 +26,13 @@ export default function Header() {
             />
           </Link>
         </div>
-        <div className="flex w-10/12">
+        <form className="flex w-10/12" onSubmit={searchBook}>
           <input
             className="w-full px-4 py-2 bg-gray-200 border-none hover:bg-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Search"
+            name="search"
           />
-        </div>
+        </form>
         <div className="flex items-center justify-center w-1/12">
           <div
             className="flex justify-center w-6 h-6 bg-white rounded-full hover:ring-gray-300 hover:ring-8"

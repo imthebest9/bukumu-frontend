@@ -7,7 +7,7 @@ export default function Register() {
     const username = e.target.username.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
-    const res = await fetch("https://bukumu-backend.herokuapp.com/users", {
+    const res = await fetch("http://localhost:8000/users/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,6 +20,12 @@ export default function Register() {
     });
     const data = await res.json();
     console.log(data);
+    if (data.error) {
+      alert(data.error);
+    } else {
+      alert("Register Success");
+      window.location.href = "/login";
+    }
   };
   return (
     <>
@@ -76,7 +82,7 @@ export default function Register() {
             <div className="flex justify-center">
               <c4 className="text-gray-600 text-center ">
                 Already have an account?{" "}
-                <a className="text-teal-500" href="#">
+                <a className="text-teal-500" href="/login">
                   Login
                 </a>
               </c4>

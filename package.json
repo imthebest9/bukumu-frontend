@@ -13,6 +13,7 @@
     "@tailwindcss/line-clamp": "^0.4.2",
     "autoprefixer": "^10.4.13",
     "core-js": "^3.29.1",
+    "dotenv": "^16.0.3",
     "glidejs": "^2.1.0",
     "next": "13.2.3",
     "nuka-carousel": "^5.5.1",

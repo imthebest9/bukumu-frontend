@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   // const { bookID } = req.query;
-  const response = await fetch("https://bukumu-backend.herokuapp.com/books", {
+  const response = await fetch(`${process.env.API_BASE_URL}books`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

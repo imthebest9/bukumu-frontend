@@ -2,12 +2,37 @@ import Header from "@/components/header";
 import Books from "@/components/books";
 
 export default function Login() {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const res = await fetch(`${process.env.API_BASE_URL}users/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+    const data = await res.json();
+    console.log(data);
+    // get the jwt token
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      window.location.href = "/mainpage";
+    }
+  };
   return (
     <>
       <div className="flex flex-col min-h-screen min-w-screen bg-background ">
         <Header />
         <div className="flex flex-col w-full h-full max-w-screen-xl px-6 mx-auto align-center justify-center">
-          <div className="w-96 flex justify-center flex-col bg-white p-5 shadow-lg mx-auto my-12">
+          <form
+            onSubmit={handleSubmit}
+            className="w-96 flex justify-center flex-col bg-white p-5 shadow-lg mx-auto my-12"
+          >
             <div className="flex justify-center my-4">
               <h4>Login</h4>
             </div>
@@ -16,11 +41,13 @@ export default function Login() {
                 className="w-full border bg-gray-100 rounded-lg p-3 py-4 text-sm placeholder-blueGray-400 font-semibold leading-none bg-blueGray-50 outline-none"
                 type="email"
                 placeholder="example@gmail.com"
+                name="email"
               />
               <input
                 className="w-full border bg-gray-100 rounded-lg p-3 py-4 text-sm placeholder-blueGray-400 font-semibold leading-none bg-blueGray-50 outline-none"
                 type="password"
                 placeholder="Enter your password"
+                name="password"
               />
             </div>
             <div className="mb-6">
@@ -31,13 +58,13 @@ export default function Login() {
                 </c5>
               </div>
             </div>
-            <div className="mb-5">
-              <a
-                className="block w-full text-center py-4 px-6 lg:w-auto text-lg text-white font-semibold leading-none bg-teal-500 hover:bg-teal-700 rounded"
-                href="#"
+            <div className="mb-5 w-full flex ">
+              <button
+                type="submit"
+                className="block w-full text-center py-4 px-6 text-lg text-white font-semibold leading-none bg-teal-500 hover:bg-teal-700 rounded"
               >
                 Login
-              </a>
+              </button>
             </div>
             <div className="flex justify-center">
               <c4 className="text-gray-600 text-center">
@@ -47,7 +74,7 @@ export default function Login() {
                 </a>
               </c4>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </>

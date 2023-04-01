@@ -10,9 +10,10 @@ export default function Books() {
   const query = router.query;
   const bookId = query.bookId;
   const [book, setBook] = useState(null);
+  const [rating, setRating] = useState(0);
   async function getBook() {
     const res = await fetch(
-      `https://bukumu-backend.herokuapp.com/books/${bookId}`,
+      `${process.env.API_BASE_URL}okId}`,
       {
         method: "GET",
         headers: {
@@ -63,6 +64,9 @@ export default function Books() {
                 </div>
                 <div className="flex flex-col mb-4 space-y-3">
                   <sh1>{book?.title}</sh1>
+                  <div>
+                    <c4>Genre: {book?.genre}</c4>
+                  </div>
                   <div className="h-36">
                     <p className="line-clamp-4">{book?.synopsis}</p>
                     <a className="underline cursor-pointer">See more...</a>
@@ -70,12 +74,32 @@ export default function Books() {
                   <div className="flex flex-row items-center space-x-3">
                     <div className="items-center justify-center w-10 p-1 text-center bg-black rounded-full h-9">
                       <c3 className="text-white">
-                        {book?.author
-                          .charAt(0)
-                          .toUpperCase()}
+                        {book?.author.charAt(0).toUpperCase()}
                       </c3>
                     </div>
                     <c3>{book?.author}</c3>
+                  </div>
+                </div>
+                <div className="flex flex-row items-center space-x-3 mb-4">
+                  <c1 className="text-lg font-medium">Rate this book:</c1>
+                  <div className="flex flex-row space-x-1">
+                    {[1, 2, 3, 4, 5].map((num) => (
+                      <button
+                        key={num}
+                        className="text-yellow-400 focus:outline-none"
+                        onMouseEnter={() => setRating(num)}
+                        onMouseLeave={() => setRating(0)}
+                        onClick={() => submitRating(num)}
+                      >
+                        {num <= rating ? (
+                          <c1 className="text-yellow-400 font-solid">
+                            &#9733;
+                          </c1>
+                        ) : (
+                          <c1 className="text-gray-400 font-solid">&#9733;</c1>
+                        )}
+                      </button>
+                    ))}
                   </div>
                 </div>
                 <div className="flex flex-row mb-4 space-x-3">

@@ -8,7 +8,7 @@ export default function Onboarding() {
 
   async function getAllBooks() {
     const res = await fetch(
-      `https://bukumu-backend.herokuapp.com/books/random/50`,
+      `${process.env.API_BASE_URL}books/random/50`,
       {
         method: "GET",
         headers: {
