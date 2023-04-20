@@ -1,6 +1,7 @@
 import Header from "@/components/header";
 import Books from "@/components/books";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -34,7 +35,7 @@ export default function Home() {
                 </c4>
               </div>
               <div className="flex flex-row space-x-4 mb-8">
-                <div className="flex flex-row lg:w-full">
+                {/* <div className="flex flex-row lg:w-full">
                   <div className="bg-white flex items-center py-2 px-4">
                     <c4 className="font-iconsolid">envelope</c4>
                   </div>
@@ -53,14 +54,13 @@ export default function Home() {
                     type="email"
                     placeholder="Type your password"
                   />
-                </div>
-                <div>
-                  <a
-                    className="block w-full py-4 px-6 lg:w-auto text-lg text-white font-semibold leading-none bg-teal-500 hover:bg-teal-700 rounded"
-                    href="#"
-                  >
-                    Register
-                  </a>
+                </div> */}
+                <div className="w-full mx-6">
+                  <Link href="/register">
+                    <p className="block w-full py-4 px-6 lg:w-auto text-lg text-white font-semibold leading-none bg-teal-500 hover:bg-teal-700 rounded">
+                      Get Started
+                    </p>
+                  </Link>
                 </div>
               </div>
               <div className="flex flex-row justify-center h-36 space-x-10">

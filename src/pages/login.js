@@ -21,7 +21,7 @@ export default function Login() {
     // get the jwt token
     if (data.token) {
       localStorage.setItem("token", data.token);
-      window.location.href = "/mainpage";
+      window.location.href = "/onboarding";
     }
   };
   return (

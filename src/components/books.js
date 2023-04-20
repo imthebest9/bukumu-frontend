@@ -31,7 +31,7 @@ export default function Books({ count, column, specificBooks }) {
     <div className={`gap-6 space-y-8 columns-${column}`}>
       {books?.map((book, index) => (
         <div key={index}>
-          <Link href={`/books/${book?._id}`}>
+          <Link href={`/books/${book?._id}`} shallow={false}>
             <div className="mb-6 cursor-pointer break-inside-avoid">
               <div className="flex justify-center mb-3">
                 <img

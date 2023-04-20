@@ -1,8 +1,64 @@
 import Header from "@/components/header";
 import Books from "@/components/books";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
-export default function Home() {
+export default function Profile() {
+  const [activeTab, setActiveTab] = useState("wantToRead");
+  const [wantToRead, setWantToRead] = useState([]);
+  const [alreadyRead, setAlreadyRead] = useState([]);
+
+  async function fetchWantToRead() {
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${process.env.API_BASE_URL}ReadingList`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    console.log(data);
+    if (data.message) console.log(data.message);
+    else {
+      setWantToRead(data);
+    }
+  }
+
+  async function fetchAlreadyRead() {
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${process.env.API_BASE_URL}userrating`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    console.log(data[0].book);
+    if (data.message) console.log(data.message);
+    else {
+      let books = [];
+      let ratings = [];
+      // get every book and rating from the data
+      for (let i = 0; i < data.length; i++) {
+        books.push(data[i].book);
+        ratings.push(data[i].rating);
+      }
+      console.log(alreadyRead);
+      setAlreadyRead(books);
+    }
+  }
+
+  const handleTabClick = (tabName) => {
+    setActiveTab(tabName);
+  };
+
+  useEffect(() => {
+    fetchWantToRead();
+    fetchAlreadyRead();
+  }, []);
+
   return (
     <>
       <div className="flex flex-col min-h-screen min-w-screen bg-background ">
@@ -18,15 +74,43 @@ export default function Home() {
               </button>
             </div>
           </div>
-          <div className="flex mx-auto flex-row space-x-4 mb-4">
-            <div>
-              <sh3>Want to read</sh3>
+          <div className="flex w-full flex-col mx-auto">
+            <div className="flex w-full mx-auto flex-row space-x-4 mb-4 justify-center">
+              <div
+                className={`cursor-pointer ${
+                  activeTab === "wantToRead" ? "border-b-2 border-blue-500" : ""
+                }`}
+                onClick={() => handleTabClick("wantToRead")}
+              >
+                <h5>Want to read</h5>
+              </div>
+              <div
+                className={`cursor-pointer ${
+                  activeTab === "alreadyRead"
+                    ? "border-b-2 border-blue-500"
+                    : ""
+                }`}
+                onClick={() => handleTabClick("alreadyRead")}
+              >
+                <h5>Already read</h5>
+              </div>
             </div>
-            <div>
-              <sh3>Already read</sh3>
-            </div>
+            {activeTab === "wantToRead" && (
+              <div className="flex justify-center">
+                {wantToRead.books && (
+                  <Books specificBooks={wantToRead.books} column={3} />
+                )}
+              </div>
+            )}
+            {activeTab === "alreadyRead" && (
+              <div>
+                <p>List of books already read</p>
+                {alreadyRead.books && (
+                  <Books specificBooks={alreadyRead} column={3} />
+                )}
+              </div>
+            )}
           </div>
-          <Books />
         </div>
       </div>
     </>
