@@ -60,7 +60,7 @@ export default function Onboarding() {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            rating: 5,
+            rating: 4.5,
           }),
         }
       );

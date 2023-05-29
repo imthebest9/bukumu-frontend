@@ -13,6 +13,7 @@ export default function BookDetail() {
   const [book, setBook] = useState(null);
   const [rating, setRating] = useState(0);
   const [recommendations, setRecommendations] = useState(null);
+  const [booksRatedAbove4, setBooksRatedAbove4] = useState(null); // books with rating of 4 and above
 
   async function getBook() {
     const res = await fetch(`${process.env.API_BASE_URL}books/${bookId}`, {
@@ -90,20 +91,26 @@ export default function BookDetail() {
       setRecommendations(null);
     };
 
-    router.events.on('routeChangeComplete', handleRouteChange);
+    if (localStorage) {
+      const booksRatedAbove4JSON = JSON.parse(
+        localStorage.getItem("booksRatedAbove4")
+      );
+      setBooksRatedAbove4(booksRatedAbove4JSON);
+    }
+
+    router.events.on("routeChangeComplete", handleRouteChange);
 
     return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
+      router.events.off("routeChangeComplete", handleRouteChange);
     };
-
   }, [bookId, router.events]);
   return (
     <>
       <div className="flex flex-col min-h-screen min-w-screen bg-background ">
         <Header />
         <div className="flex flex-col w-full h-full max-w-screen-xl px-6 mx-auto align-center">
-          <div className="flex flex-row bg-white mb-6 lg:mx-16 rounded-3xl drop-shadow-2xl">
-            <div className="w-1/2">
+          <div className="flex flex-col sm:flex-row bg-white mb-6 lg:mx-16 rounded-3xl drop-shadow-2xl">
+            <div className="sm:w-1/2 flex justify-center mt-3 sm:mt-0">
               <img
                 src={book?.image ? book?.image : "/images/loading.jpg"}
                 alt="teluk intan"
@@ -111,7 +118,24 @@ export default function BookDetail() {
                 className="object-contain h-full rounded-3xl"
               />
             </div>
-            <div className="flex flex-col w-1/2 p-8 mt-8">
+            <div className="flex flex-col sm:w-1/2 p-8 sm:mt-8  overflow-x-hidden">
+              <div className="mb-4 flex items-center p-4 bg-blue-100 rounded-lg">
+                <div className="mr-4">
+                  <p className="text-2xl font-iconsolid"></p>
+                </div>
+                <div>
+                  <p className="text-lg font-semibold">
+                    This book is recommended because you liked{" "}
+                    <span className="font-bold">{booksRatedAbove4?.title}</span>
+                  </p>
+                  <a
+                    href="/recommendation-details"
+                    className="text-blue-500 underline"
+                  >
+                    See how it is being recommended
+                  </a>
+                </div>
+              </div>
               <div className="grow">
                 <div className="flex flex-row justify-between mb-3">
                   <div className="flex flex-row space-x-5">

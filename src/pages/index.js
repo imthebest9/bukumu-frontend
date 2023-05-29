@@ -6,9 +6,44 @@ import Link from "next/link";
 
 export default function Mainpage() {
   const [book, setBook] = useState(null);
+  const [booksRatedAbove4, setBooksRatedAbove4] = useState(null); // books with rating of 4 and above
+  const [contentBasedBooks, setContentBasedBooks] = useState(null);
   async function getABook() {
+    const res = await fetch(`${process.env.API_BASE_URL}books/random/1`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    console.log(data);
+    setBook(data);
+  }
+
+  async function getHighRatedBooks() {
+    const token = localStorage.getItem("token");
+    // get books with rating of 4 and above
     const res = await fetch(
-      `${process.env.API_BASE_URL}books/random/1`,
+      `${process.env.API_BASE_URL}userrating/books?minRating=4`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    console.log(data);
+    setBooksRatedAbove4(data);
+    localStorage.setItem("booksRatedAbove4", JSON.stringify(data[0]));
+  }
+
+  async function getContentBasedBooks() {
+    const res2 = await fetch(
+      `${process.env.API_BASE_URL}books/recommendations/${
+        booksRatedAbove4 ? booksRatedAbove4[0]?._id : ""
+      }`,
       {
         method: "GET",
         headers: {
@@ -16,13 +51,26 @@ export default function Mainpage() {
         },
       }
     );
-    const data = await res.json();
-    console.log(data);
-    setBook(data);
+    const data2 = await res2.json();
+    console.log(data2);
+    if (data2.recommended_books) {
+      const dataArr = await JSON.parse(data2.recommended_books);
+      console.log(dataArr);
+      setContentBasedBooks(dataArr);
+    }
   }
+
   useEffect(() => {
     getABook();
+    getHighRatedBooks();
   }, []);
+
+  useEffect(() => {
+    if (booksRatedAbove4) {
+      getContentBasedBooks();
+    }
+  }, [booksRatedAbove4]);
+
   return (
     <>
       <div className="flex flex-col min-h-screen min-w-screen bg-background ">
@@ -76,7 +124,13 @@ export default function Mainpage() {
                 <h5>Based on Your Interests</h5>
               </div>
               <div>
-                <Books count={6} column={3} />
+                {contentBasedBooks && (
+                  <Books
+                    count={1}
+                    column={3}
+                    specificBooks={contentBasedBooks}
+                  />
+                )}
               </div>
             </div>
             <div className="w-1/2 pl-6">
