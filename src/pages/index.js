@@ -8,6 +8,8 @@ export default function Mainpage() {
   const [book, setBook] = useState(null);
   const [booksRatedAbove4, setBooksRatedAbove4] = useState(null); // books with rating of 4 and above
   const [contentBasedBooks, setContentBasedBooks] = useState(null);
+  const [cfBooks, setCfBooks] = useState(null); // collaborative filtering books  (books rated by users with similar taste)
+
   async function getABook() {
     const res = await fetch(`${process.env.API_BASE_URL}books/random/1`, {
       method: "GET",
@@ -60,6 +62,23 @@ export default function Mainpage() {
     }
   }
 
+  async function getCfBooks() {
+    const token = localStorage.getItem("token");
+    const res = await fetch(
+      `${process.env.API_BASE_URL}books/recommendations_cf`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    console.log(data);
+    setCfBooks(data);
+  }
+
   useEffect(() => {
     getABook();
     getHighRatedBooks();
@@ -68,6 +87,7 @@ export default function Mainpage() {
   useEffect(() => {
     if (booksRatedAbove4) {
       getContentBasedBooks();
+      getCfBooks();
     }
   }, [booksRatedAbove4]);
 
@@ -139,6 +159,9 @@ export default function Mainpage() {
               </div>
               <div>
                 <Books count={6} column={3} />
+                {/* {cfBooks && (
+                  <Books count={6} column={3} specificBooks={cfBooks} />
+                )} */}
               </div>
             </div>
           </div>

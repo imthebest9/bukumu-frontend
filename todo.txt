@@ -1,11 +1,11 @@
-Create a new user
-Pick some books
-Save into database
-According to these books, recommend based on content-based 
+#Create a new user
+#Pick some books
+#Save into database
+#According to these books, recommend based on content-based 
 
 and collaborative filtering - match user-book matrix 
 
-Put these books on frontend
+#Put these books on frontend
 Visualise the reason why the books are recommended
 Show how it is recommended using an info page
 
@@ -14,4 +14,10 @@ Likes and dislikes reflect recommendations
 hybrid - how to combine the two, decide the weight of each by research
 
 beautify onboarding
+
+1. collaborative filtering - user-user similarity
+2. content-based filtering - book-book similarity
+3. popularity based filtering - most popular books
+
+
 

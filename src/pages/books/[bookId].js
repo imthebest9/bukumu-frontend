@@ -158,7 +158,7 @@ export default function BookDetail() {
                   </a>
                 </div>
                 <div className="flex flex-col mb-4 space-y-3">
-                  <sh1>{book?.title}</sh1>
+                  <sh1>{book?.title.replace("?Â?", "'")}</sh1>
                   <div>
                     <c4>Genre: {book?.genre}</c4>
                   </div>

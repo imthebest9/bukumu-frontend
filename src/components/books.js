@@ -41,7 +41,7 @@ export default function Books({ count, column, specificBooks }) {
                   className="object-contain h-full rounded-3xl hover:drop-shadow-2xl"
                 />
               </div>
-              <h6>{book?.title}</h6>
+              <h6>{book?.title.replace("?Â?", "'")}</h6>
               <c4>{book?.author}</c4>
             </div>
           </Link>
