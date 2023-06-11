@@ -9,6 +9,7 @@ export default function Mainpage() {
   const [booksRatedAbove4, setBooksRatedAbove4] = useState(null); // books with rating of 4 and above
   const [contentBasedBooks, setContentBasedBooks] = useState(null);
   const [cfBooks, setCfBooks] = useState(null); // collaborative filtering books  (books rated by users with similar taste)
+  const [ppBooks, setPpBooks] = useState(null); // popularity based books (books rated by most users)
 
   async function getABook() {
     const res = await fetch(`${process.env.API_BASE_URL}books/random/1`, {
@@ -65,7 +66,7 @@ export default function Mainpage() {
   async function getCfBooks() {
     const token = localStorage.getItem("token");
     const res = await fetch(
-      `${process.env.API_BASE_URL}books/recommendations_cf`,
+      `${process.env.API_BASE_URL}books/recommendationscf/cf`,
       {
         method: "GET",
         headers: {
@@ -76,18 +77,40 @@ export default function Mainpage() {
     );
     const data = await res.json();
     console.log(data);
-    setCfBooks(data);
+    if (data.recommended_books) {
+      const dataArr = await JSON.parse(data.recommended_books);
+      console.log(dataArr);
+      setCfBooks(dataArr);
+    }
+  }
+
+  async function getPpBooks() {
+    const token = localStorage.getItem("token");
+    const res = await fetch(
+      `${process.env.API_BASE_URL}userrating/books/most-rated`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    console.log(data);
+    setPpBooks(data);
   }
 
   useEffect(() => {
     getABook();
     getHighRatedBooks();
+    getCfBooks();
+    getPpBooks();
   }, []);
 
   useEffect(() => {
     if (booksRatedAbove4) {
       getContentBasedBooks();
-      getCfBooks();
     }
   }, [booksRatedAbove4]);
 
@@ -158,16 +181,15 @@ export default function Mainpage() {
                 <h5>Based on What Others Like You Enjoyed</h5>
               </div>
               <div>
-                <Books count={6} column={3} />
-                {/* {cfBooks && (
+                {cfBooks && (
                   <Books count={6} column={3} specificBooks={cfBooks} />
-                )} */}
+                )}
               </div>
             </div>
           </div>
           <div className="mb-6">
             <h5 className="mb-2">Popular Books</h5>
-            <Books count={6} column={3} />
+            {ppBooks && <Books count={6} column={3} specificBooks={ppBooks} />}
           </div>
           <div className="bg-gray-100 p-4">
             <h5 className="mb-2">By Category</h5>
