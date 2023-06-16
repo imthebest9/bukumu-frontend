@@ -129,7 +129,7 @@ export default function Mainpage() {
                   <div className="flex flex-col w-2/3 p-8 mt-1">
                     <div className="grow">
                       <div className="flex flex-col mb-4 space-y-3">
-                        <sh1>{book && book[0]?.title}</sh1>
+                        <sh1>{book && book[0]?.title.replace(/Â¡Â¯/g, "'").replace(/\?Â\?/g, "'")}</sh1>
                         <div className="h-36">
                           <p className="line-clamp-4">
                             {book && book[0]?.synopsis}
@@ -164,7 +164,7 @@ export default function Mainpage() {
           <div className="flex flex-row divide-x-4 mb-6">
             <div className="w-1/2 pr-6">
               <div className="mb-4">
-                <h5>Based on Your Interests</h5>
+                <h4>Based on Your Interests</h4>
               </div>
               <div>
                 {contentBasedBooks && (
@@ -178,7 +178,7 @@ export default function Mainpage() {
             </div>
             <div className="w-1/2 pl-6">
               <div className="mb-4">
-                <h5>Based on What Others Like You Enjoyed</h5>
+                <h4>Based on What Others Like You Enjoyed</h4>
               </div>
               <div>
                 {cfBooks && (

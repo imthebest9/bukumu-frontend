@@ -4,7 +4,7 @@ import Header from "@/components/header";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function Books({ count, column, specificBooks }) {
+export default function Books({ count, column, specificBooks, ratings }) {
   const [books, setBooks] = useState(null);
   async function getAllBooks(count) {
     if (!count) count = 100;
@@ -41,8 +41,9 @@ export default function Books({ count, column, specificBooks }) {
                   className="object-contain h-full rounded-3xl hover:drop-shadow-2xl"
                 />
               </div>
-              <h6>{book?.title.replace("?Â?", "'")}</h6>
-              <c4>{book?.author}</c4>
+              <h6>{book?.title.replace(/Â¡Â¯/g, "'").replace(/\?Â\?/g, "'")}</h6>
+              <c2>{book?.author} <br /></c2>
+              <c4>Ratings: {ratings && ratings[index]}</c4>
             </div>
           </Link>
         </div>

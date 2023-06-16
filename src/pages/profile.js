@@ -7,6 +7,8 @@ export default function Profile() {
   const [activeTab, setActiveTab] = useState("wantToRead");
   const [wantToRead, setWantToRead] = useState([]);
   const [alreadyRead, setAlreadyRead] = useState([]);
+  const [ratedBooks, setRatedBooks] = useState([]);
+  const [ratings, setRatings] = useState([]);
 
   async function fetchWantToRead() {
     const token = localStorage.getItem("token");
@@ -50,6 +52,32 @@ export default function Profile() {
     }
   }
 
+  async function fetchRatedBooks() {
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${process.env.API_BASE_URL}userrating`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    console.log(data);
+    if (data.message) console.log(data.message);
+    else {
+      let books = [];
+      let ratings = [];
+      // get every book and rating from the data
+      for (let i = 0; i < data.length; i++) {
+        books.push(data[i].book);
+        ratings.push(data[i].rating);
+      }
+      console.log(alreadyRead);
+      setRatedBooks(books);
+      setRatings(ratings);
+    }
+  }
+
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
@@ -57,6 +85,7 @@ export default function Profile() {
   useEffect(() => {
     fetchWantToRead();
     fetchAlreadyRead();
+    fetchRatedBooks();
   }, []);
 
   return (
@@ -94,6 +123,14 @@ export default function Profile() {
               >
                 <h5>Already read</h5>
               </div>
+              <div
+                className={`cursor-pointer ${
+                  activeTab === "rated" ? "border-b-2 border-blue-500" : ""
+                }`}
+                onClick={() => handleTabClick("rated")}
+              >
+                <h5>Rated</h5>
+              </div>
             </div>
             {activeTab === "wantToRead" && (
               <div className="flex justify-center">
@@ -108,6 +145,11 @@ export default function Profile() {
                 {alreadyRead.books && (
                   <Books specificBooks={alreadyRead} column={3} />
                 )}
+              </div>
+            )}
+            {activeTab === "rated" && (
+              <div className="flex justify-center">
+                {ratedBooks && <Books specificBooks={ratedBooks} column={3} ratings={ratings} />}
               </div>
             )}
           </div>

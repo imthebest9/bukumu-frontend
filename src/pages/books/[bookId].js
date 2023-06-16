@@ -126,7 +126,7 @@ export default function BookDetail() {
                 <div>
                   <p className="text-lg font-semibold">
                     This book is recommended because you liked{" "}
-                    <span className="font-bold">{booksRatedAbove4?.title}</span>
+                    <span className="font-bold">{booksRatedAbove4?.title.replace(/Â¡Â¯/g, "'").replace(/\?Â\?/g, "'")}</span>
                   </p>
                   <a
                     href="/recommendation-details"
