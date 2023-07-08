@@ -39,13 +39,18 @@ export default function Mainpage() {
     const data = await res.json();
     console.log(data);
     setBooksRatedAbove4(data);
-    localStorage.setItem("booksRatedAbove4", JSON.stringify(data[0]));
+    localStorage.setItem(
+      "booksRatedAbove4",
+      JSON.stringify(data[data.length - 1])
+    );
   }
 
   async function getContentBasedBooks() {
     const res2 = await fetch(
       `${process.env.API_BASE_URL}books/recommendations/${
-        booksRatedAbove4 ? booksRatedAbove4[0]?._id : ""
+        booksRatedAbove4
+          ? booksRatedAbove4[booksRatedAbove4.length - 1]?._id
+          : ""
       }`,
       {
         method: "GET",
@@ -129,7 +134,12 @@ export default function Mainpage() {
                   <div className="flex flex-col w-2/3 p-8 mt-1">
                     <div className="grow">
                       <div className="flex flex-col mb-4 space-y-3">
-                        <sh1>{book && book[0]?.title.replace(/Â¡Â¯/g, "'").replace(/\?Â\?/g, "'")}</sh1>
+                        <sh1>
+                          {book &&
+                            book[0]?.title
+                              .replace(/Â¡Â¯/g, "'")
+                              .replace(/\?Â\?/g, "'")}
+                        </sh1>
                         <div className="h-36">
                           <p className="line-clamp-4">
                             {book && book[0]?.synopsis}
@@ -167,12 +177,14 @@ export default function Mainpage() {
                 <h4>Based on Your Interests</h4>
               </div>
               <div>
-                {contentBasedBooks && (
+                {contentBasedBooks ? (
                   <Books
                     count={1}
                     column={3}
                     specificBooks={contentBasedBooks}
                   />
+                ) : (
+                  <div>Processing...</div>
                 )}
               </div>
             </div>
@@ -181,22 +193,28 @@ export default function Mainpage() {
                 <h4>Based on What Others Like You Enjoyed</h4>
               </div>
               <div>
-                {cfBooks && (
+                {cfBooks ? (
                   <Books count={6} column={3} specificBooks={cfBooks} />
+                ) : (
+                  <div>Processing...</div>
                 )}
               </div>
             </div>
           </div>
           <div className="mb-6">
             <h5 className="mb-2">Popular Books</h5>
-            {ppBooks && <Books count={6} column={3} specificBooks={ppBooks} />}
+            {ppBooks ? (
+              <Books count={6} column={3} specificBooks={ppBooks} />
+            ) : (
+              <div>Processing...</div>
+            )}
           </div>
           <div className="bg-gray-100 p-4">
             <h5 className="mb-2">By Category</h5>
             <div className="grid grid-cols-4 gap-4">
               <div className="flex flex-col border border-gray-300 rounded-lg p-4 hover:bg-gray-200 transition duration-200">
                 <a
-                  href="#"
+                  href="/genre?genre=fiction"
                   className="text-xl font-medium mb-2 hover:text-teal-600 transition duration-200"
                 >
                   Fiction
@@ -204,7 +222,7 @@ export default function Mainpage() {
               </div>
               <div className="flex flex-col border border-gray-300 rounded-lg p-4 hover:bg-gray-200 transition duration-200">
                 <a
-                  href="#"
+                  href="/genre?genre=non-fiction"
                   className="text-xl font-medium mb-2 hover:text-teal-600 transition duration-200"
                 >
                   Non-Fiction
@@ -212,7 +230,7 @@ export default function Mainpage() {
               </div>
               <div className="flex flex-col border border-gray-300 rounded-lg p-4 hover:bg-gray-200 transition duration-200">
                 <a
-                  href="#"
+                  href="/genre?genre=biography"
                   className="text-xl font-medium mb-2 hover:text-teal-600 transition duration-200"
                 >
                   Biography
@@ -220,7 +238,7 @@ export default function Mainpage() {
               </div>
               <div className="flex flex-col border border-gray-300 rounded-lg p-4 hover:bg-gray-200 transition duration-200">
                 <a
-                  href="#"
+                  href="/genre?genre=mystery"
                   className="text-xl font-medium mb-2 hover:text-teal-600 transition duration-200"
                 >
                   Mystery
@@ -228,7 +246,7 @@ export default function Mainpage() {
               </div>
               <div className="flex flex-col border border-gray-300 rounded-lg p-4 hover:bg-gray-200 transition duration-200">
                 <a
-                  href="#"
+                  href="/genre?genre=science"
                   className="text-xl font-medium mb-2 hover:text-teal-600 transition duration-200"
                 >
                   Science Fiction
@@ -236,7 +254,7 @@ export default function Mainpage() {
               </div>
               <div className="flex flex-col border border-gray-300 rounded-lg p-4 hover:bg-gray-200 transition duration-200">
                 <a
-                  href="#"
+                  href="/genre?genre=romance"
                   className="text-xl font-medium mb-2 hover:text-teal-600 transition duration-200"
                 >
                   Romance
@@ -244,7 +262,7 @@ export default function Mainpage() {
               </div>
               <div className="flex flex-col border border-gray-300 rounded-lg p-4 hover:bg-gray-200 transition duration-200">
                 <a
-                  href="#"
+                  href="/genre?genre=thriller"
                   className="text-xl font-medium mb-2 hover:text-teal-600 transition duration-200"
                 >
                   Thriller
@@ -252,10 +270,10 @@ export default function Mainpage() {
               </div>
               <div className="flex flex-col border border-gray-300 rounded-lg p-4 hover:bg-gray-200 transition duration-200">
                 <a
-                  href="#"
+                  href="/genre?genre=history"
                   className="text-xl font-medium mb-2 hover:text-teal-600 transition duration-200"
                 >
-                  Historical Fiction
+                  Historical
                 </a>
               </div>
             </div>

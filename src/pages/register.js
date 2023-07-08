@@ -63,14 +63,14 @@ export default function Register() {
                 placeholder="Confirm password"
               />
             </div>
-            <div className="mb-6">
+            {/* <div className="mb-6">
               <div className="space-x-2 flex items-center ">
                 <input type="checkbox" className="bg-teal-500" />
                 <c5 className="text-gray-900">
                   I agree to the Terms of Service and Privacy Policy.
                 </c5>
               </div>
-            </div>
+            </div> */}
             <div className="mb-5 w-full flex ">
               <button
                 type="submit"

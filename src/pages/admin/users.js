@@ -5,15 +5,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 export default function Mainpage() {
-  const [books, setBooks] = useState(null);
+  const [users, setUsers] = useState(null);
   const [page, setPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const pageSize = 10;
   const router = useRouter();
 
-  const displayedBooks = books
-    ?.filter((book) =>
-      book.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const displayedUsers = users
+    ?.filter((user) =>
+      user.username.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .slice(page * pageSize, (page + 1) * pageSize);
 
@@ -24,25 +24,25 @@ export default function Mainpage() {
   }
 
   function handleNextPage() {
-    if ((page + 1) * pageSize < books.length) {
+    if ((page + 1) * pageSize < users.length) {
       setPage(page + 1);
     }
   }
 
-  function handleEdit(bookId) {
+  function handleEdit(userId) {
     // Implement edit functionality here
   }
 
-  const handleDelete = async (bookId) => {
-    if (window.confirm("Are you sure you want to delete this book?")) {
+  const handleDelete = async (userId) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        const response = await fetch(`${process.env.API_BASE_URL}books/${bookId}`, {
+        const response = await fetch(`${process.env.API_BASE_URL}users/${userId}`, {
           method: "DELETE",
         });
         if (!response.ok) {
-          throw new Error("Failed to delete book");
+          throw new Error("Failed to delete user");
         }
-        // Assuming the book was successfully deleted, refresh the page to reflect the changes
+        // Assuming the user was successfully deleted, refresh the page to reflect the changes
         router.reload();
       } catch (error) {
         console.error(error);
@@ -78,8 +78,8 @@ export default function Mainpage() {
     );
   };
 
-  async function getBooks() {
-    const res = await fetch(`${process.env.API_BASE_URL}books`, {
+  async function getUsers() {
+    const res = await fetch(`${process.env.API_BASE_URL}users`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -87,10 +87,10 @@ export default function Mainpage() {
     });
     const data = await res.json();
     console.log(data);
-    setBooks(data);
+    setUsers(data);
   }
   useEffect(() => {
-    getBooks();
+    getUsers();
   }, []);
   return (
     <>
@@ -106,9 +106,9 @@ export default function Mainpage() {
             </div>
           </div>
           <div className="mb-4">
-            <Link href="/admin/books/add">
+            <Link href="/admin/users/add">
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Add a New Book
+                Add a New User
               </button>
             </Link>
           </div>
@@ -118,13 +118,13 @@ export default function Mainpage() {
                 className="block text-gray-700 font-bold mb-2"
                 htmlFor="search"
               >
-                Search a book
+                Search a user
               </label>
               <input
                 className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="search"
                 type="text"
-                placeholder="Search by title"
+                placeholder="Search by username"
                 value={searchTerm}
                 onChange={handleSearch}
               />
@@ -134,24 +134,23 @@ export default function Mainpage() {
             <table className="table-auto w-full">
               <thead>
                 <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                  <th className="py-3 px-4 text-left">Title</th>
-                  <th className="py-3 px-4 text-left">Author</th>
-                  <th className="py-3 px-4 text-left">Genre</th>
+                  <th className="py-3 px-4 text-left">Username</th>
+                  <th className="py-3 px-4 text-left">Email</th>
+                  <th className="py-3 px-4 text-left">Role</th>
                   <th className="py-3 px-4 text-left"></th>
                   <th className="py-3 px-4 text-left"></th>
                 </tr>
               </thead>
               <tbody className="text-gray-600 text-sm font-light">
-                {displayedBooks?.map((book) => (
+                {displayedUsers?.map((user) => (
                   <tr
-                    key={book._id}
+                    key={user._id}
                     className="border-b border-gray-200 hover:bg-gray-100"
                   >
-                    <td className="py-3 px-4 text-left">{book.title}</td>
-                    <td className="py-3 px-4 text-left">{book.author}</td>
-                    <td className="py-3 px-4 text-left">{book.genre}</td>
+                    <td className="py-3 px-4 text-left">{user.username}</td>
+                    <td className="py-3 px-4 text-left">{user.email}</td>
                     <td>
-                      <Link href={`/admin/book/edit?id=${book._id}`}>
+                      <Link href={`/admin/user/edit?id=${user._id}`}>
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                           Edit
                         </button>
@@ -160,7 +159,7 @@ export default function Mainpage() {
                     <td>
                       <button
                         className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                        onClick={() => handleDelete(book._id)}
+                        onClick={() => handleDelete(user._id)}
                       >
                         Delete
                       </button>
@@ -172,8 +171,8 @@ export default function Mainpage() {
             <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
               <span className="text-xs xs:text-sm text-gray-900">
                 Showing {page * pageSize + 1} to{" "}
-                {Math.min((page + 1) * pageSize, books?.length)} of{" "}
-                {books?.length} Entries
+                {Math.min((page + 1) * pageSize, users?.length)} of{" "}
+                {users?.length} Entries
               </span>
               <div className="inline-flex mt-2 xs:mt-0 space-x-2">
                 <button
@@ -187,12 +186,12 @@ export default function Mainpage() {
                 <button
                   className={`text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r 
         ${
-          (page + 1) * pageSize >= books?.length
+          (page + 1) * pageSize >= users?.length
             ? "opacity-50 cursor-not-allowed"
             : ""
         }`}
                   onClick={handleNextPage}
-                  disabled={(page + 1) * pageSize >= books?.length}
+                  disabled={(page + 1) * pageSize >= users?.length}
                 >
                   Next
                 </button>

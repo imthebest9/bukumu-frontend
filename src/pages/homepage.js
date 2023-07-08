@@ -132,6 +132,83 @@ export default function Home() {
             />
           </div>
         </div>
+        <div className="flex flex-row h-[550px] -mt-36 max-w-screen-xl mx-auto w-full justify-center px-12 lg:px-0 align-center">
+          <div className="benefits-section">
+            <h3 className="text-2xl font-bold mb-4">
+              Benefits of Using BukuMu
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="benefit bg-white p-4 rounded-lg shadow-md flex flex-col">
+                <div className="benefit-icon bg-teal-500 text-white rounded-full p-3 mx-auto">
+                  <Image
+                    src="/images/personalised.png"
+                    alt="Personalization"
+                    width={50}
+                    height={50}
+                  />
+                </div>
+                <div className="benefit-description mt-3">
+                  <h4 className="text-lg font-semibold">
+                    Personalized Recommendations
+                  </h4>
+                  <p>
+                    Discover books tailored to your preferences and reading
+                    habits. BukuMu recommends books based on your interests,
+                    making it easier to find your next great read.
+                  </p>
+                </div>
+              </div>
+              <div className="benefit bg-white p-4 rounded-lg shadow-md flex flex-col">
+                <div className="benefit-icon bg-teal-500 text-white rounded-full p-3 mx-auto">
+                  <Image
+                    src="/images/malaysia2-rm.png"
+                    alt="Local Books"
+                    width={50}
+                    height={50}
+                  />
+                </div>
+                <div className="benefit-description mt-3">
+                  <h4 className="text-lg font-semibold">
+                    Promote Malaysian Books and Magazines
+                  </h4>
+                  <p>
+                    Explore the rich collection of Malaysian books and
+                    magazines. BukuMu supports local authors and publishers,
+                    promoting homegrown talent and showcasing the diverse
+                    literary landscape.
+                  </p>
+                </div>
+              </div>
+              <div className="benefit bg-white p-4 rounded-lg shadow-md flex flex-col">
+                <div className="benefit-icon bg-teal-500 text-white rounded-full p-4 mx-auto">
+                  <Image
+                    src="/images/search.png"
+                    alt="Easy Search"
+                    width={40}
+                    height={40}
+                  />
+                </div>
+                <div className="benefit-description mt-3">
+                  <h4 className="text-lg font-semibold">
+                    Effortless Book Details Search
+                  </h4>
+                  <p>
+                    Find detailed information about books in a hassle-free way.
+                    BukuMu simplifies the process of discovering book details,
+                    saving you time and ensuring you have all the necessary
+                    information at your fingertips.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-row h-[550px] -mt-36 max-w-screen-xl mx-auto w-full justify-center px-12 lg:px-0 align-center">
+          <div className="featured-books-section">
+            <h3 className="text-2xl font-bold mb-4">Featured Books</h3>
+            <Books column={3} count={3} />
+          </div>
+        </div>
       </div>
     </>
   );
