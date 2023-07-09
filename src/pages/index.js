@@ -3,6 +3,7 @@ import Books from "@/components/books";
 import { useEffect, useState } from "react";
 import React from "react";
 import Link from "next/link";
+import Carousel from "nuka-carousel/lib/carousel";
 
 export default function Mainpage() {
   const [book, setBook] = useState(null);
@@ -124,53 +125,49 @@ export default function Mainpage() {
       <div className="flex flex-col min-h-screen min-w-screen bg-background ">
         <Header />
         <div className="flex flex-col w-full h-full max-w-screen-xl px-6 mx-auto align-center">
-          {book && (
-            <Link href={`/books/${book[0]?._id}`}>
-              <div className="flex flex-col bg-white lg:mx-16 rounded-3xl drop-shadow-2xl mb-4">
-                <div className="flex justify-center mt-4">
-                  <h3>Featured</h3>
-                </div>
-                <div className="flex flex-row">
-                  <div className="flex flex-col w-2/3 p-8 mt-1">
-                    <div className="grow">
-                      <div className="flex flex-col mb-4 space-y-3">
-                        <sh1>
-                          {book &&
-                            book[0]?.title
+          <Carousel showThumbs={false}>
+            {booksRatedAbove4?.map((book, index) => (
+              <Link key={index} href={`/books/${book?._id}`}>
+                <div className="flex flex-col bg-white lg:mx-16 rounded-3xl drop-shadow-2xl mb-4">
+                  <div className="flex flex-row">
+                    <div className="flex flex-col w-2/3 p-8 mt-1">
+                      <div className="grow">
+                        <div className="flex flex-col mb-4 space-y-3">
+                          <sh1>
+                            {book?.title
                               .replace(/Â¡Â¯/g, "'")
                               .replace(/\?Â\?/g, "'")}
-                        </sh1>
-                        <div className="h-36">
-                          <p className="line-clamp-4">
-                            {book && book[0]?.synopsis}
-                          </p>
-                          <p className="underline cursor-pointer">
-                            See more...
-                          </p>
-                        </div>
-                        <div className="flex flex-row items-center space-x-3">
-                          <div className="items-center justify-center w-10 p-1 text-center bg-black rounded-full h-9">
-                            <c3 className="text-white">
-                              {book && book[0]?.author?.charAt(0).toUpperCase()}
-                            </c3>
+                          </sh1>
+                          <div className="h-36">
+                            <p className="line-clamp-4">{book?.synopsis}</p>
+                            <p className="underline cursor-pointer">
+                              See more...
+                            </p>
                           </div>
-                          <c3>{book && book[0]?.author}</c3>
+                          <div className="flex flex-row items-center space-x-3">
+                            <div className="items-center justify-center w-10 p-1 text-center bg-black rounded-full h-9">
+                              <c3 className="text-white">
+                                {book?.author?.charAt(0).toUpperCase()}
+                              </c3>
+                            </div>
+                            <c3>{book?.author}</c3>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="w-1/3">
-                    <img
-                      src={book ? book[0]?.image : "/images/loading.jpg"}
-                      alt="teluk intan"
-                      fill="true"
-                      className="object-contain h-full rounded-3xl"
-                    />
+                    <div className="w-1/3">
+                      <img
+                        src={book ? book?.image : "/images/loading.jpg"}
+                        alt="teluk intan"
+                        fill="true"
+                        className="object-contain h-full rounded-3xl"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          )}
+              </Link>
+            ))}
+          </Carousel>
           <div className="flex flex-row divide-x-4 mb-6">
             <div className="w-1/2 pr-6">
               <div className="mb-4">
