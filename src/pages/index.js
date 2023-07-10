@@ -11,6 +11,7 @@ export default function Mainpage() {
   const [contentBasedBooks, setContentBasedBooks] = useState(null);
   const [cfBooks, setCfBooks] = useState(null); // collaborative filtering books  (books rated by users with similar taste)
   const [ppBooks, setPpBooks] = useState(null); // popularity based books (books rated by most users)
+  const [mixedRecommendations, setMixedRecommendations] = useState(null);
 
   async function getABook() {
     const res = await fetch(`${process.env.API_BASE_URL}books/random/1`, {
@@ -107,6 +108,31 @@ export default function Mainpage() {
     setPpBooks(data);
   }
 
+  async function getMixedRecommendations() {
+    const token = localStorage.getItem("token");
+    const res = await fetch(
+      `${process.env.API_BASE_URL}books/recommendations/${
+        contentBasedBooks
+          ? contentBasedBooks[contentBasedBooks.length - 1]?._id
+          : ""
+      }`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    console.log(data);
+    if (data.recommended_books) {
+      const dataArr = await JSON.parse(data.recommended_books);
+      console.log(dataArr);
+      setMixedRecommendations(dataArr);
+    }
+  }
+
   useEffect(() => {
     getABook();
     getHighRatedBooks();
@@ -115,10 +141,16 @@ export default function Mainpage() {
   }, []);
 
   useEffect(() => {
-    if (booksRatedAbove4) {
+    if (booksRatedAbove4 && !contentBasedBooks) {
       getContentBasedBooks();
     }
-  }, [booksRatedAbove4]);
+  }, [booksRatedAbove4, contentBasedBooks]);
+
+  useEffect(() => {
+    if (contentBasedBooks) {
+      getMixedRecommendations();
+    }
+  }, [contentBasedBooks]);
 
   return (
     <>
@@ -126,9 +158,14 @@ export default function Mainpage() {
         <Header />
         <div className="flex flex-col w-full h-full max-w-screen-xl px-6 mx-auto align-center">
           <Carousel showThumbs={false}>
-            {booksRatedAbove4?.map((book, index) => (
+            {mixedRecommendations?.map((book, index) => (
               <Link key={index} href={`/books/${book?._id}`}>
-                <div className="flex flex-col bg-white lg:mx-16 rounded-3xl drop-shadow-2xl mb-4">
+                <div
+                  onClick={() => {
+                    localStorage.setItem("method", "hybrid");
+                  }}
+                  className="flex flex-col bg-white lg:mx-16 rounded-3xl drop-shadow-2xl mb-4"
+                >
                   <div className="flex flex-row">
                     <div className="flex flex-col w-2/3 p-8 mt-1">
                       <div className="grow">
@@ -179,6 +216,7 @@ export default function Mainpage() {
                     count={1}
                     column={3}
                     specificBooks={contentBasedBooks}
+                    method="content-based"
                   />
                 ) : (
                   <div>Processing...</div>
@@ -191,7 +229,12 @@ export default function Mainpage() {
               </div>
               <div>
                 {cfBooks ? (
-                  <Books count={6} column={3} specificBooks={cfBooks} />
+                  <Books
+                    count={5}
+                    column={3}
+                    specificBooks={cfBooks.slice(0, -5)}
+                    method="cf"
+                  />
                 ) : (
                   <div>Processing...</div>
                 )}
@@ -201,7 +244,12 @@ export default function Mainpage() {
           <div className="mb-6">
             <h5 className="mb-2">Popular Books</h5>
             {ppBooks ? (
-              <Books count={6} column={3} specificBooks={ppBooks} />
+              <Books
+                count={5}
+                column={3}
+                specificBooks={ppBooks.slice(0, -3)}
+                method="pp"
+              />
             ) : (
               <div>Processing...</div>
             )}

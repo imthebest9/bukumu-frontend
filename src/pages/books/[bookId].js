@@ -14,6 +14,7 @@ export default function BookDetail() {
   const [rating, setRating] = useState(0);
   const [recommendations, setRecommendations] = useState(null);
   const [booksRatedAbove4, setBooksRatedAbove4] = useState(null); // books with rating of 4 and above
+  const [method, setMethod] = useState(null);
 
   async function getBook() {
     const res = await fetch(`${process.env.API_BASE_URL}books/${bookId}`, {
@@ -96,6 +97,7 @@ export default function BookDetail() {
         localStorage.getItem("booksRatedAbove4")
       );
       setBooksRatedAbove4(booksRatedAbove4JSON);
+      setMethod(localStorage.getItem("method"));
     }
 
     router.events.on("routeChangeComplete", handleRouteChange);
@@ -119,23 +121,66 @@ export default function BookDetail() {
               />
             </div>
             <div className="flex flex-col sm:w-1/2 p-8 sm:mt-8  overflow-x-hidden">
-              <div className="mb-4 flex items-center p-4 bg-blue-100 rounded-lg">
-                <div className="mr-4">
-                  <p className="text-2xl font-iconsolid"></p>
+              {method === "content-based" && (
+                <div className="mb-4 flex items-center p-4 bg-blue-100 rounded-lg">
+                  <div className="mr-4">
+                    <p className="text-2xl font-iconsolid"></p>
+                  </div>
+
+                  <div>
+                    <p className="text-lg font-semibold">
+                      This book is recommended because you liked{" "}
+                      <span className="font-bold">
+                        {booksRatedAbove4?.title
+                          .replace(/Â¡Â¯/g, "'")
+                          .replace(/\?Â\?/g, "'")}
+                      </span>
+                    </p>
+                    <a
+                      href="/recommendation-details"
+                      className="text-blue-500 underline"
+                    >
+                      See how it is being recommended
+                    </a>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-lg font-semibold">
-                    This book is recommended because you liked{" "}
-                    <span className="font-bold">{booksRatedAbove4?.title.replace(/Â¡Â¯/g, "'").replace(/\?Â\?/g, "'")}</span>
-                  </p>
-                  <a
-                    href="/recommendation-details"
-                    className="text-blue-500 underline"
-                  >
-                    See how it is being recommended
-                  </a>
+              )}
+              {method === "cf" && (
+                <div className="mb-4 flex items-center p-4 bg-blue-100 rounded-lg">
+                  <div className="mr-4">
+                    <p className="text-2xl font-iconsolid"></p>
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold">
+                      This book is recommended because similar users liked it.
+                    </p>
+                    <a
+                      href="/recommendation-cf"
+                      className="text-blue-500 underline"
+                    >
+                      See how it is being recommended
+                    </a>
+                  </div>
                 </div>
-              </div>
+              )}
+              {method === "pp" && (
+                <div className="mb-4 flex items-center p-4 bg-blue-100 rounded-lg">
+                  <div className="mr-4">
+                    <p className="text-2xl font-iconsolid"></p>
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold">
+                      This book is recommended because it is popular.
+                    </p>
+                    <a
+                      href="/recommendation-pp"
+                      className="text-blue-500 underline"
+                    >
+                      See how it is being recommended
+                    </a>
+                  </div>
+                </div>
+              )}
               <div className="grow">
                 <div className="flex flex-row justify-between mb-3">
                   <div className="flex flex-row space-x-5">
@@ -164,7 +209,6 @@ export default function BookDetail() {
                   </div>
                   <div className="h-36">
                     <p className="line-clamp-4">{book?.synopsis}</p>
-                    <a className="underline cursor-pointer">See more...</a>
                   </div>
                   <div className="flex flex-row items-center space-x-3">
                     <div className="items-center justify-center w-10 p-1 text-center bg-black rounded-full h-9">
@@ -197,22 +241,6 @@ export default function BookDetail() {
                     ))}
                   </div>
                 </div>
-                <div className="flex flex-row mb-4 space-x-3">
-                  <c2 className="truncate">3 Comments</c2>
-                  <a>
-                    <c2 className="font-iconsolid"></c2>
-                  </a>
-                  {/* comment */}
-                </div>
-              </div>
-              <div className="flex flex-row h-12 space-x-2">
-                <div className="items-center justify-center w-12 h-12 p-2.5 text-center bg-black rounded-full">
-                  <c3 className="text-white">IN</c3>
-                </div>
-                <input
-                  className="w-full px-4 py-2 bg-gray-200 border-none hover:bg-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Add a comment"
-                />
               </div>
             </div>
           </div>
@@ -221,7 +249,11 @@ export default function BookDetail() {
           </div>
           <div>
             {bookId && recommendations && recommendations.length > 0 && (
-              <Books column={3} specificBooks={recommendations} />
+              <Books
+                column={3}
+                specificBooks={recommendations}
+                method="content-based-related"
+              />
             )}
           </div>
         </div>

@@ -4,7 +4,13 @@ import Header from "@/components/header";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function Books({ count, column, specificBooks, ratings }) {
+export default function Books({
+  count,
+  column,
+  specificBooks,
+  ratings,
+  method,
+}) {
   const [books, setBooks] = useState(null);
   async function getAllBooks(count) {
     if (!count) count = 100;
@@ -30,13 +36,13 @@ export default function Books({ count, column, specificBooks, ratings }) {
   return (
     <div className={`gap-6 space-y-8 columns-${column}`}>
       {books?.map((book, index) => (
-        <div key={index}>
+        <div key={index} onClick={() => localStorage.setItem("method", method)}>
           <Link href={`/books/${book?._id}`} shallow={false}>
             <div className="mb-6 cursor-pointer break-inside-avoid">
               <div className="flex justify-center mb-3">
                 <img
                   src={book.image ? book.image : "/images/loading.jpg"}
-                  alt="teluk intan"
+                  alt="img"
                   fill="true"
                   className="object-contain h-full rounded-3xl hover:drop-shadow-2xl"
                 />
@@ -48,6 +54,9 @@ export default function Books({ count, column, specificBooks, ratings }) {
                 {book?.author} <br />
               </c2>
               <c4>{ratings && <c4>Ratings: {ratings[index]}</c4>}</c4>
+              <c4>
+                {book.ratingCount && <c4>Rated by: {book.ratingCount} people</c4>}{" "}
+              </c4>
             </div>
           </Link>
         </div>
