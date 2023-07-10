@@ -120,6 +120,14 @@ export default function Profile() {
               />
               <sh1 className="mb-2">{currentUser?.email.split("@")[0]}</sh1>
               <p className="mb-2 text-sm">@{currentUser?._id}</p>
+              <button
+                onClick={() => {
+                  window.location.href = "/homepage";
+                }}
+                className="block w-full text-center py-4 px-6 text-lg text-white font-semibold leading-none bg-teal-500 hover:bg-teal-700 rounded"
+              >
+                Log out
+              </button>
             </div>
             {/* <div>
               <button className="px-4 py-2  text-sm font-semibold bg-gray-100 rounded-full shadow-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-opacity-75">
